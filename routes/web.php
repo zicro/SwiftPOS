@@ -2,7 +2,12 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Dashboard\WelcomeController;
+use App\Http\Controllers\Dashboard\CategoryController;
+use App\Http\Controllers\Dashboard\ProductController;
+use App\Http\Controllers\Dashboard\ClientController;
+use App\Http\Controllers\Dashboard\Client\OrderController;
+use App\Http\Controllers\Dashboard\OrderController as OrdersController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,14 +19,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('/', function () {
     return view('welcome');
 });
-
+/*
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
-
+*/
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -33,7 +39,9 @@ Route::middleware('auth')->group(function () {
 
         Route::prefix('dashboard')->name('dashboard.')->middleware(['auth'])->group(function () {
 
-            Route::get('/', 'WelcomeController@index')->name('welcome');
+            //Route::get('/', 'WelcomeController@index')->name('welcome');
+			Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
+
 
             //category routes
             Route::resource('categories', 'CategoryController')->except(['show']);
