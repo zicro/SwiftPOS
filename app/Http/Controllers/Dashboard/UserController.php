@@ -14,9 +14,9 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::whereRoleIs('admin')->where(function ($q) use ($request) {
+        $users = User::where(function ($q) use ($request) {
 
             return $q->when($request->search, function ($query) use ($request) {
 
@@ -68,7 +68,7 @@ class UserController extends Controller
         }//end of if
 
         $user = User::create($request_data);
-        $user->attachRole('admin');
+        $user->addRole('admin');
         $user->syncPermissions($request->permissions);
 
         session()->flash('success', __('site.added_successfully'));

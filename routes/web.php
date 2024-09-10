@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\WelcomeController;
+use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\Dashboard\CategoryController;
 use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Dashboard\ClientController;
@@ -44,22 +45,30 @@ Route::middleware('auth')->group(function () {
 
 
             //category routes
-            Route::resource('categories', 'CategoryController')->except(['show']);
+            //Route::resource('categories', 'CategoryController')->except(['show']);
+			Route::resource('categories', CategoryController::class);
 
             //product routes
-            Route::resource('products', 'ProductController')->except(['show']);
+            //Route::resource('products', 'ProductController')->except(['show']);
+			Route::resource('products', ProductController::class);
 
             //client routes
-            Route::resource('clients', 'ClientController')->except(['show']);
-            Route::resource('clients.orders', 'Client\OrderController')->except(['show']);
+            //Route::resource('clients', 'ClientController')->except(['show']);
+			Route::resource('clients', ClientController::class);
+            //Route::resource('clients.orders', 'Client\OrderController')->except(['show']);
+			Route::resource('clients.orders', Client\OrderController::class);
 
             //order routes
-            Route::resource('orders', 'OrderController');
-            Route::get('/orders/{order}/products', 'OrderController@products')->name('orders.products');
+            //Route::resource('orders', 'OrderController');
+			Route::resource('orders', OrderController::class);
+            //Route::get('/orders/{order}/products', 'OrderController@products')->name('orders.products');
+			Route::get('/orders/{order}/products', [OrderController::class, 'products'])->name('orders.products');
 
 
             //user routes
-            Route::resource('users', 'UserController')->except(['show']);
+            //Route::resource('users', 'UserController')->except(['show']);
+			Route::resource('users', UserController::class);
+
 
         });//end of dashboard routes
 
